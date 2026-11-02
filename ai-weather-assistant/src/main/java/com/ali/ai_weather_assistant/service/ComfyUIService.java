@@ -1,5 +1,6 @@
 package com.ali.ai_weather_assistant.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
@@ -124,9 +126,11 @@ public class ComfyUIService {
         throw new RuntimeException("Replicate timed out after 120 seconds");
     }
 
-    private byte[] fetchImageBytes(String imageUrl) {
-        return restTemplate.getForObject(imageUrl, byte[].class);
-    }
+private byte[] fetchImageBytes(String imageUrl) {
+    RestTemplate plain = new RestTemplate(restTemplate.getRequestFactory());
+    RequestEntity<Void> req = RequestEntity.get(URI.create(imageUrl)).build();
+    return plain.exchange(req, byte[].class).getBody();
+}
 
     // one prompt -> one finished image (submit, poll, download)
     private byte[] generateOne(String prompt) throws InterruptedException {
