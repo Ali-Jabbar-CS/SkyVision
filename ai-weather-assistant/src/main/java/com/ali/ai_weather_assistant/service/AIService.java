@@ -25,7 +25,7 @@ public class AIService {
 
     // Current supported model (the old llama3-8192 names are deprecated).
     // If Groq ever retires this one, just change it here.
-    private static final String MODEL = "llama-3.3-70b-versatile";
+    private static final String MODEL = "openai/gpt-oss-120b";
 
     // Reads groq.api.key from application.properties locally, OR the
     // GROQ_API_KEY environment variable on Railway (Spring maps both to this).
